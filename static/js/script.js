@@ -239,7 +239,27 @@ $(function () {
     playNextTrackButton.on("click", function () {
       selectTrack(1);
     });
-    fetch('/track-urls')
+
+    // Получение текущего URL
+    const currentURL = window.location.href;
+
+    let trackURLsEndpoint;
+
+    // Примерная логика для определения URL в зависимости от страницы
+    if (currentURL.includes("batman")) {
+        trackURLsEndpoint = '/batmanSountrack';
+    } else if (currentURL.includes("dune")) {
+        trackURLsEndpoint = '/duneSountrack';
+    } else if (currentURL.includes("inception")) {
+      trackURLsEndpoint = '/inceptionSountrack';
+    } else if (currentURL.includes("piratesOfTheCaribbean")) {
+      trackURLsEndpoint = '/piratesSountrack';
+    } else {
+        trackURLsEndpoint = '/interstellarSountrack';
+    }
+
+    
+    fetch(trackURLsEndpoint)
     .then(response => response.json())
     .then(trackURLs => {
         console.log('Ссылки на треки:', trackURLs);

@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
-func YandexStorage() []string {
+func YandexStorage() (inmage, interstellar, batman, dune, inception, piratesOfTheCaribbean []string) {
 
 	// Создаем кастомный обработчик эндпоинтов, который для сервиса S3 и региона ru-central1 выдаст корректный URL
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
@@ -42,19 +42,82 @@ func YandexStorage() []string {
 	for _, bucket := range result.Buckets {
 		log.Printf("bucket=%s creation time=%s", aws.ToString(bucket.Name), bucket.CreationDate.Format("2006-01-02 15:04:05 Monday"))
 	}
-
-	output, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+	//Background images storage
+	backgoundimages, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
 		Bucket: aws.String("petprojecthanzzimmer"),
+		Prefix: aws.String("backgoundimages/"),
+	})
+	//Interstellar sountracks storage
+	interstellarSoundtrack, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: aws.String("petprojecthanzzimmer"),
+		Prefix: aws.String("interstellarSoundtrack/"),
+	})
+	//Batman sountracks storage
+	batmanSoundtrack, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: aws.String("petprojecthanzzimmer"),
+		Prefix: aws.String("batmanSoundtrack/"),
+	})
+	//Dune sountracks storage
+	duneSoundrack, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: aws.String("petprojecthanzzimmer"),
+		Prefix: aws.String("duneSoundtrack/"),
+	})
+	//Inception sountracks storage
+	inceptionSoundrack, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: aws.String("petprojecthanzzimmer"),
+		Prefix: aws.String("inceptionSoundtrack/"),
+	})
+	//PiratesOfTheCaribbean sountracks storage
+	piratesOfTheCaribbeanSoundrack, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: aws.String("petprojecthanzzimmer"),
+		Prefix: aws.String("piratesSoundtrack/"),
 	})
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	var arrayUrl []string
+	//Background Images
+	var imageURLs []string
 	// Генерируем URL для каждого объекта и выводим его
-	for _, object := range output.Contents {
+	for _, object := range backgoundimages.Contents {
 		url := fmt.Sprintf("https://storage.yandexcloud.net/petprojecthanzzimmer/%s", aws.ToString(object.Key))
-		arrayUrl = append(arrayUrl, url)
+		imageURLs = append(imageURLs, url)
 	}
-	return arrayUrl
+
+	//Interstellar sountracks
+	var interstellarSoundrackUrls []string
+	for _, object := range interstellarSoundtrack.Contents {
+		url := fmt.Sprintf("https://storage.yandexcloud.net/petprojecthanzzimmer/%s", aws.ToString(object.Key))
+		interstellarSoundrackUrls = append(interstellarSoundrackUrls, url)
+	}
+
+	//Batman sountracks
+	var batmanSoundrackUrls []string
+	for _, object := range batmanSoundtrack.Contents {
+		url := fmt.Sprintf("https://storage.yandexcloud.net/petprojecthanzzimmer/%s", aws.ToString(object.Key))
+		batmanSoundrackUrls = append(batmanSoundrackUrls, url)
+	}
+
+	//Dune sountracks
+	var duneSoundrackUrls []string
+	for _, object := range duneSoundrack.Contents {
+		url := fmt.Sprintf("https://storage.yandexcloud.net/petprojecthanzzimmer/%s", aws.ToString(object.Key))
+		duneSoundrackUrls = append(duneSoundrackUrls, url)
+	}
+
+	//Inception sountracks
+	var inceptionSoundrackUrls []string
+	for _, object := range inceptionSoundrack.Contents {
+		url := fmt.Sprintf("https://storage.yandexcloud.net/petprojecthanzzimmer/%s", aws.ToString(object.Key))
+		inceptionSoundrackUrls = append(inceptionSoundrackUrls, url)
+	}
+
+	//PiratesOfTheCaribbeanSoundrack sountracks
+	var piratesOfTheCaribbeanSoundrackUrls []string
+	for _, object := range piratesOfTheCaribbeanSoundrack.Contents {
+		url := fmt.Sprintf("https://storage.yandexcloud.net/petprojecthanzzimmer/%s", aws.ToString(object.Key))
+		piratesOfTheCaribbeanSoundrackUrls = append(piratesOfTheCaribbeanSoundrackUrls, url)
+	}
+	return imageURLs[1:], interstellarSoundrackUrls[1:], batmanSoundrackUrls[1:], duneSoundrackUrls[1:], inceptionSoundrackUrls[1:], piratesOfTheCaribbeanSoundrackUrls[1:]
+
 }
