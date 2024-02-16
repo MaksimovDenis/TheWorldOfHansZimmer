@@ -31,12 +31,13 @@ $(function () {
     tFlag = false,
     albums = "Hans Zimmer",
     trackNames = [],
-    albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
-    
+    albumArtworks = "_image",
+    countOfSoundTracks=0,
     trackUrl = [],
     playPreviousTrackButton = $("#play-previous"),
     playNextTrackButton = $("#play-next"),
-    currIndex = -1;
+    currIndex = -1,
+    imageUrl;
 
   function playPause() {
     setTimeout(function () {
@@ -156,8 +157,14 @@ $(function () {
   function selectTrack(flag) {
     if (flag == 0 || flag == 1) ++currIndex;
     else --currIndex;
+    
+    if (currIndex === countOfSoundTracks) {
+      currIndex = 0;
+    } else if (currIndex<0){
+      currIndex = countOfSoundTracks - 1;
+    }
 
-    if (currIndex > -1 && currIndex < albumArtworks.length) {
+    if (currIndex > -1 && currIndex < countOfSoundTracks) {
       if (flag == 0) i.attr("class", "fa fa-play");
       else {
         albumArt.removeClass("buffering");
@@ -171,7 +178,7 @@ $(function () {
 
       currAlbum = albums;
       currTrackName = trackNames[currIndex];
-      currArtwork = albumArtworks[currIndex];
+      currArtwork = albumArtworks;
 
       audio.src = trackUrl[currIndex];
 
@@ -221,6 +228,10 @@ $(function () {
 
     $(audio).on("timeupdate", updateCurrTime);
 
+    $(audio).on("ended", function() {
+      selectTrack(1);
+    });
+
     playPreviousTrackButton.on("click", function () {
       selectTrack(-1);
     });
@@ -232,18 +243,23 @@ $(function () {
     const currentURL = window.location.href;
 
     let trackURLsEndpoint;
-
+    let imageUrl;
     // Примерная логика для определения URL в зависимости от страницы
     if (currentURL.includes("batman")) {
-        trackURLsEndpoint = '/batmanSountrack';
+      trackURLsEndpoint = '/batmanSountrack';
+      imageUrl = "https://storage.yandexcloud.net/petprojecthanzzimmer/backgoundimagesPlayer/batmanPlayerWallpaper.webp";
     } else if (currentURL.includes("dune")) {
         trackURLsEndpoint = '/duneSountrack';
+        imageUrl = "https://storage.yandexcloud.net/petprojecthanzzimmer/backgoundimagesPlayer/dunePlayerWallpaper.webp";
     } else if (currentURL.includes("inception")) {
       trackURLsEndpoint = '/inceptionSountrack';
+      imageUrl = "https://storage.yandexcloud.net/petprojecthanzzimmer/backgoundimagesPlayer/inceptionPlyaerWallpaper.webp";
     } else if (currentURL.includes("piratesOfTheCaribbean")) {
       trackURLsEndpoint = '/piratesSountrack';
+      imageUrl = "https://storage.yandexcloud.net/petprojecthanzzimmer/backgoundimagesPlayer/piratesOfTheCaribbeanPlayerWallpaper.webp";
     } else {
         trackURLsEndpoint = '/interstellarSountrack';
+        imageUrl = "https://storage.yandexcloud.net/petprojecthanzzimmer/backgoundimagesPlayer/interstellarPlayer.webp";
     }
     
     fetch(trackURLsEndpoint)
@@ -254,11 +270,26 @@ $(function () {
         for (let url of trackUrl) {
           const trackName = url.split('/').pop().split(' - ')[1].replace('.mp3', '');
           trackNames.push(trackName);
+          countOfSoundTracks++
       }
         // Продолжайте инициализацию плеера здесь, используя полученные URL-адреса треков
     })
     .catch(error => console.error('Ошибка получения ссылок на треки:', error));
+
+   // Устанавливаем ссылку на изображение
+   $("#album-art img.active").attr("src", imageUrl);
+
+   
   }
 
+  window.addEventListener('load', function() {
+    var background = document.getElementById('background');
+    background.style.opacity = 0; // Устанавливаем начальную прозрачность фона
+
+    setTimeout(function() {
+        background.style.opacity = 1; // Постепенно устанавливаем фон непрозрачным
+    }, 100); // Можно изменить задержку, чтобы фон начал появляться после некоторого времени
+});
+  
   initPlayer();
 });
