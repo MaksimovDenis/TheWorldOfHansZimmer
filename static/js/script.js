@@ -29,20 +29,8 @@ $(function () {
     nTime = 0,
     buffInterval = null,
     tFlag = false,
-    albums = [
-      "Dawn",
-      "Me & You",
-      "Electro Boy",
-      "Home",
-      "Proxy (Original Mix)"
-    ],
-    trackNames = [
-      "Skylike - Dawn",
-      "Alex Skrindo - Me & You",
-      "Kaaze - Electro Boy",
-      "Jordan Schor - Home",
-      "Martin Garrix - Proxy"
-    ],
+    albums = "Hans Zimmer",
+    trackNames = [],
     albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
     
     trackUrl = [],
@@ -181,7 +169,7 @@ $(function () {
       tProgress.text("00:00");
       tTime.text("00:00");
 
-      currAlbum = albums[currIndex];
+      currAlbum = albums;
       currTrackName = trackNames[currIndex];
       currArtwork = albumArtworks[currIndex];
 
@@ -257,13 +245,16 @@ $(function () {
     } else {
         trackURLsEndpoint = '/interstellarSountrack';
     }
-
     
     fetch(trackURLsEndpoint)
     .then(response => response.json())
     .then(trackURLs => {
         console.log('Ссылки на треки:', trackURLs);
         trackUrl = trackURLs;
+        for (let url of trackUrl) {
+          const trackName = url.split('/').pop().split(' - ')[1].replace('.mp3', '');
+          trackNames.push(trackName);
+      }
         // Продолжайте инициализацию плеера здесь, используя полученные URL-адреса треков
     })
     .catch(error => console.error('Ошибка получения ссылок на треки:', error));
