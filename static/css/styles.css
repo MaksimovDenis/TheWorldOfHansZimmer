@@ -10,6 +10,12 @@
     height: 100%;
 }
 
+body {
+    font-family: Helvetica, Arial;
+	background-image: url("");
+    background-size: cover;
+    background-position: center;
+}
 
   
   #app-cover {
@@ -285,20 +291,13 @@
   }
   
   .button {
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 10px 25px;
-    border-radius: 100px;
-    transition: all .2s;
-    background-color: transparent; /* Прозрачный фон */
-    color: #ffffff; /* Цвет текста кнопок */
-    margin: 0 5px;
-    position: relative; /* Используем относительное позиционирование */
-    font-size: 13px; /* Новое свойство для размера шрифта */
-    font-family: 'Comfortaa', sans-serif; /* Используем выбранный шрифт */
-	border: 2px solid white; /* Белый контур */
-    opacity: 0; /* Начальная прозрачность */
-    transition: all .4s;
+	width: 26px;
+	height: 26px;
+	padding: 25px;
+    background-color: #666666; /* Цвет фона */
+
+    border-radius: 6px; /* Скругление углов */
+	cursor: pointer;
   }
   
   .button i {
@@ -325,14 +324,11 @@
 
   /*buttons*/
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: black; /* начальный цвет фона */
+	margin: 0;
+	padding: 0;
+	font-family: Arial, sans-serif;
+	background-color: black; /* начальный цвет фона */
     animation: fadeInBackground 3s forwards; /* применяем анимацию */
-	background-image: url("");
-    background-size: cover;
-    background-position: center;
 }
 
 .background {
@@ -343,21 +339,14 @@ body {
     height: 100%;
     background-color: black; /* начальный цвет фона */
     z-index: -1; /* чтобы фон был под контентом */
+    animation: fadeInBackground 3s forwards; /* применяем анимацию */
     opacity: 0; /* начальная прозрачность */
 }
 
 .content {
     /* стили для вашего контента */
+    animation: fadeInBackground 3s forwards; /* применяем анимацию */
     opacity: 0; /* начальная прозрачность */
-}
-
-@keyframes fadeInBackground {
-    from {
-        opacity: 0; /* начальная прозрачность */
-    }
-    to {
-        opacity: 1; /* конечная прозрачность */
-    }
 }
 
 .container {
@@ -378,15 +367,12 @@ body {
     padding: 10px 25px;
     border-radius: 100px;
     transition: all .2s;
-    background-color: transparent; /* Прозрачный фон */
+    background-color: #2c2c2c; /* Цвет фона кнопок */
     color: #ffffff; /* Цвет текста кнопок */
     margin: 0 5px;
     position: relative; /* Используем относительное позиционирование */
     font-size: 13px; /* Новое свойство для размера шрифта */
     font-family: 'Comfortaa', sans-serif; /* Используем выбранный шрифт */
-	border: 2px solid white; /* Белый контур */
-    opacity: 0; /* Начальная прозрачность */
-    transition: all .4s;
 }
 
 .btn:hover {
@@ -409,15 +395,25 @@ body {
     top: 0;
     left: 0;
     z-index: -1;
-    border: 2px solid white; /* задаем белый контур */
-    opacity: 0; /* начальная прозрачность */
     transition: all .4s;
 }
 
 .btn:hover::after {
     transform: scaleX(1.4) scaleY(1.6);
-    opacity: 1; /* делаем контур видимым при наведении */
+    opacity: 0;
 }
 
+.fadeInBackground {
+    animation-name: fadeInBackground;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+}
 
-
+@keyframes fadeInBackground {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
