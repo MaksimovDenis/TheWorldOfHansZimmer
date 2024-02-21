@@ -323,26 +323,6 @@ body {
 
 
   /*buttons*/
-body {
-	margin: 0;
-	padding: 0;
-	font-family: Arial, sans-serif;
-	background-color: black; /* начальный цвет фона */
-    animation: fadeInBackground 3s forwards; /* применяем анимацию */
-}
-
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black; /* начальный цвет фона */
-    z-index: -1; /* чтобы фон был под контентом */
-    animation: fadeInBackground 3s forwards; /* применяем анимацию */
-    opacity: 0; /* начальная прозрачность */
-}
-
 .content {
     /* стили для вашего контента */
     animation: fadeInBackground 3s forwards; /* применяем анимацию */
@@ -401,12 +381,6 @@ body {
 .btn:hover::after {
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
-}
-
-.fadeInBackground {
-    animation-name: fadeInBackground;
-    animation-duration: 3s;
-    animation-fill-mode: forwards;
 }
 
 @keyframes fadeInBackground {
